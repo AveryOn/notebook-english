@@ -1,0 +1,44 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+    --c-primary-1: var(--p-emerald-100);
+    --c-primary-2: var(--p-emerald-300);
+    --c-primary-3: var(--p-emerald-400);
+    --c-primary-4: var(--p-emerald-500);
+    --txt-light-0: var(--p-zinc-300);
+    --txt-light-1: var(--p-zinc-400);
+    --txt-light-2: var(--p-zinc-500);
+    --txt-light-3: var(--p-zinc-600);
+    --font: "Roboto Mono", monospace;
+    --light-border: 1px dotted var(--txt-light-1);
+    --rounded: 4px;
+
+    --space-edge-new-word-btn: 1.1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --c-primary-1: var(--p-emerald-500);
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--color-text);
+    background: var(--color-background);
+    transition: color 0.5s, background-color 0.5s;
+    line-height: 1.6;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
