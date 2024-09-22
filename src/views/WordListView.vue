@@ -1,5 +1,13 @@
 <script setup>
+import { onMounted } from 'vue'
+import { fetchWords } from '@/api/wordsApi';
 import backBtn from '@/components/main/UI/backBtn.vue';
+
+
+onMounted(async () => {
+    const words = await fetchWords();
+    console.log(words);
+})
 </script>
 
 <template>
@@ -15,11 +23,12 @@ import backBtn from '@/components/main/UI/backBtn.vue';
             </InputGroup>
         </div>
 
+        <!-- Word List -->
         <div class="w-full py-3 px-2">
             <ul class="w-full flex flex-column gap-2">
                 <!-- Word Item -->
                 <li 
-                v-for="i in 15" 
+                v-for="i in 0" 
                 class="word-item w-full px-3 py-2 flex justify-content-between"
                 :key="i"
                 @click="$router.push({ name: 'infoWord', params: { id: i } })"

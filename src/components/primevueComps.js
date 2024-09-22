@@ -14,6 +14,7 @@ import AccordionHeader from 'primevue/accordionheader';
 import AccordionContent from 'primevue/accordioncontent';
 import Inplace from 'primevue/inplace';
 import Card from 'primevue/card';
+import MultiSelect from 'primevue/multiselect';
 
 
 export default [
@@ -33,4 +34,5 @@ export default [
     AccordionHeader,
     Inplace,
     Card,
+    MultiSelect,
 ]
