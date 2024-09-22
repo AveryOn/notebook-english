@@ -30,6 +30,10 @@
     font-weight: normal;
 }
 
+.light {
+    color: var(--txt-light-2);
+}
+
 body {
     min-height: 100vh;
     color: var(--color-text);

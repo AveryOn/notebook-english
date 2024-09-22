@@ -2,7 +2,10 @@
 import backBtn from '@/components/main/UI/backBtn.vue';
 import { ref } from 'vue';
 
+const maxErrorTranslateCount = 3;
+const currentError = ref(0);
 const openWordIndex = ref(null);
+const isInvalidTranslateWord = ref(false);
 </script>
 
 <template>
@@ -22,8 +25,13 @@ const openWordIndex = ref(null);
                                 <AccordionContent>
 
                                     <!-- Input Word Translate -->
+                                    <span class="w-full light">{{ currentError }} / {{ maxErrorTranslateCount }}</span>
                                     <InputGroup>
-                                        <InputText placeholder="Введите перевод слова" />
+                                        <InputText 
+                                        placeholder="Введите перевод слова"
+                                        :invalid="isInvalidTranslateWord"
+                                        
+                                        />
                                         <Button icon="pi pi-check" severity="secondary" outlined />
                                     </InputGroup>
 
