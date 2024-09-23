@@ -17,10 +17,13 @@ const creationForm = reactive({
     selectedHomographs: [1,2],
 })
 
+// Save new word
 function handlerSaveWord() {
     loadingSave.value = true;
     setTimeout(() => {
         loadingSave.value = false;
+        console.log(creationForm);
+        
         emit('confirm', true);
     }, 600);
 }
@@ -32,7 +35,7 @@ function handlerSaveWord() {
 
         <!-- Новое слово на англ -->
         <creationInput
-        class="mb-5"
+        class="mb-4"
         :label="'A new word'"
         :postfix="'eng'"
         :disabled="loadingSave"
@@ -41,6 +44,7 @@ function handlerSaveWord() {
 
         <!-- Новое слово на rus -->
         <creationInput 
+        class="mb-4"
         :label="'Translate'"
         :postfix="'rus'"
         :disabled="loadingSave"
@@ -48,10 +52,10 @@ function handlerSaveWord() {
         />
 
         <!-- Select Category -->
-        <creationSelectCategory v-model="creationForm.selectedCategory"/>
+        <creationSelectCategory class="mb-4" v-model="creationForm.selectedCategory"/>
 
         <!-- Select Homographs -->
-        <creationSelectHomographs v-model="creationForm.selectedHomographs" @update:model-value="console.log"/>
+        <creationSelectHomographs class="mb-4" v-model="creationForm.selectedHomographs" @update:model-value="console.log"/>
 
         <Button 
         class="w-full mt-4"

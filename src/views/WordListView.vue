@@ -28,7 +28,7 @@ onMounted(async () => {
             <ul class="w-full flex flex-column gap-2">
                 <!-- Word Item -->
                 <li 
-                v-for="i in 0" 
+                v-for="i in 1" 
                 class="word-item w-full px-3 py-2 flex justify-content-between"
                 :key="i"
                 @click="$router.push({ name: 'infoWord', params: { id: i } })"

@@ -33,16 +33,14 @@ const emit = defineEmits({
         <InputGroupAddon>
             <i class="pi pi-language"></i>
         </InputGroupAddon>
-        <FloatLabel class="w-full">
-            <InputText 
-            class="w-full" 
-            id="word" 
-            :disabled="props.disabled"
-            :value="props.modelValue" 
-            @update:model-value="(e) => emit('update:modelValue', e)
-            "/>
-            <label for="word">{{ props.label }}</label>
-        </FloatLabel>
+        <InputText 
+        class="w-full" 
+        id="word"
+        :placeholder="props.label"
+        :disabled="props.disabled"
+        :value="props.modelValue" 
+        @update:model-value="(e) => emit('update:modelValue', e)
+        "/>
         <InputGroupAddon>
             <span style="width: 25px;">{{ props.postfix }}</span>
         </InputGroupAddon>
