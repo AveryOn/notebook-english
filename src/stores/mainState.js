@@ -4,6 +4,8 @@ import { useToast } from 'primevue/usetoast';
 
 export const useMainStore = defineStore("mainStore", () => {
     const toast = useToast();
+
+    const role = ref('admin'); // admin | user | null;
     
     // Активация всплывающего уведомления
     function activeToast(severity, summary, detail, life=3000) {
@@ -20,6 +22,10 @@ export const useMainStore = defineStore("mainStore", () => {
     }
 
     return { 
+        // State
+        role,
+
+        // Actions
         activeToast,
     };
 });

@@ -45,6 +45,7 @@ const emit = defineEmits({
             <span style="width: 25px;">{{ props.postfix }}</span>
         </InputGroupAddon>
     </InputGroup>
+
 </template>
 
 

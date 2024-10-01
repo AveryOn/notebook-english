@@ -4,6 +4,9 @@
     --c-primary-2: var(--p-emerald-300);
     --c-primary-3: var(--p-emerald-400);
     --c-primary-4: var(--p-emerald-500);
+    --c-danger-1: var(--p-red-400);
+    --c-danger-2: var(--p-red-500);
+    --c-danger-3: var(--p-red-600);
     --txt-light-0: var(--p-zinc-300);
     --txt-light-1: var(--p-zinc-400);
     --txt-light-2: var(--p-zinc-500);
