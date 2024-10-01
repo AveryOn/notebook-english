@@ -7,6 +7,11 @@ const props = defineProps({
         type: Number,
         required: false,
         default: null,
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
+        required: false,   
     }
 })
 
@@ -28,6 +33,7 @@ const categories = ref([{id: 1, name: 'Компьютер'}, { id: 2, name: 'Д�
     @change="({ value }) => emit('update:model-value', value)"
     :model-value="props.modelValue"
     :options="categories" 
+    :disabled="props.disabled"
     optionLabel="name"
     optionValue="id"
     placeholder="Выберите категорию" 

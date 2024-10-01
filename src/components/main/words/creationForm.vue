@@ -52,10 +52,14 @@ function handlerSaveWord() {
         />
 
         <!-- Select Category -->
-        <creationSelectCategory class="mb-4" v-model="creationForm.selectedCategory"/>
+        <creationSelectCategory 
+        class="mb-3" 
+        :disabled="loadingSave" 
+        v-model="creationForm.selectedCategory"
+        />
 
         <!-- Select Homographs -->
-        <creationSelectHomographs class="mb-4" v-model="creationForm.selectedHomographs" @update:model-value="console.log"/>
+        <!-- <creationSelectHomographs class="mb-4" v-model="creationForm.selectedHomographs" @update:model-value="console.log"/> -->
 
         <Button 
         class="w-full mt-4"
