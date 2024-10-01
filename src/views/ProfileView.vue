@@ -1,9 +1,17 @@
 <script setup>
 import backBtn from '@/components/main/UI/backBtn.vue';
+import deleteProfileDialog from '@/components/main/profile/deleteProfileDialog.vue';
+import { useMainStore } from '@/stores/mainState';
+import { ref } from 'vue';
+
+const store = useMainStore();
+
+const deleteDialogVisible = ref(true);
 </script>
 
 <template>
     <div class="profile-view flex flex-column align-items-center justify-content-center px-4">
+        <deleteProfileDialog  v-model="deleteDialogVisible"/>
         <div class="w-full flex align-items-center gap-3 mt-7">
             <Avatar 
             icon="pi pi-user avatar" 
@@ -17,17 +25,19 @@ import backBtn from '@/components/main/UI/backBtn.vue';
             <span class="light text-2xl">Alex Simpson</span>
         </div>
         
+        <!--------------------------------------->
         <Divider/>
+        <!--------------------------------------->
 
         <div class="w-full ">
             <ul class="flex flex-column gap-2">
                 <li class="flex align-items-center justify-content-between">
                     <span class="light">Дата создания аккаунта:</span>
-                    <span class="light">29.03.23</span>
+                    <span class="light">{{ (store.profileData?.createdAt) ?? '-' }}</span>
                 </li>
                 <li class="flex align-items-center justify-content-between">
                     <span class="light">Дата последнего изменения аккаунта:</span>
-                    <span class="light">29.03.23</span>
+                    <span class="light">{{ (store.profileData?.updatedAt) ?? '-' }}</span>
                 </li>
             </ul>
 
@@ -35,10 +45,24 @@ import backBtn from '@/components/main/UI/backBtn.vue';
 
         <!-- Actions -->
         <div class="w-full flex align-items-center mb-auto mt-5 gap-2">
-            <Button class="w-full" label="Редактировать" size="small"/>
-            <Button class="w-full" label="Удалить аккаунт" size="small" outlined severity="danger"/>
+            <!-- Edit Btn -->
+            <Button 
+            class="w-full" 
+            label="Редактировать" 
+            size="small"
+            />
+            <!-- Delete Account btn -->
+            <Button 
+            class="w-full" 
+            label="Удалить аккаунт" 
+            size="small" 
+            outlined 
+            severity="danger"
+            @click="deleteDialogVisible = true"
+            />
         </div>
 
+        <!-- Back -->
         <backBtn @back="$router.push({ name: 'main' })"/>
     </div>
 </template>

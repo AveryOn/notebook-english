@@ -9,6 +9,7 @@ export const useMainStore = defineStore("mainStore", () => {
     const categories = ref([
         { id: 1, title: 'Игры' }
     ]);
+    const profileData = ref(null);
     
     // Активация всплывающего уведомления
     function activeToast(severity, summary, detail, life=3000) {
@@ -28,6 +29,7 @@ export const useMainStore = defineStore("mainStore", () => {
         // State
         role,
         categories,
+        profileData,
 
         // Actions
         activeToast,

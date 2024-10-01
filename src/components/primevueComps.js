@@ -18,6 +18,7 @@ import MultiSelect from 'primevue/multiselect';
 import Image from 'primevue/image';
 import Avatar from 'primevue/avatar';
 import Divider from 'primevue/divider';
+import Dialog from 'primevue/dialog';
 
 
 
@@ -42,4 +43,5 @@ export default [
     Image,
     Avatar,
     Divider,
+    Dialog,
 ]
