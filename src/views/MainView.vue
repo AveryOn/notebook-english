@@ -13,7 +13,7 @@ import createWordBtn from '@/components/main/UI/createWordBtn.vue';
 
             <!-- Progress -->
             <div 
-            class="widget mt-auto ml-auto"
+            class="widget ml-auto"
             @click="$router.push({ name: 'progress' })"
             >
                 <i class="pi pi-chart-line icon-widget" style="color: var(--c-primary-3)"></i>
@@ -22,7 +22,7 @@ import createWordBtn from '@/components/main/UI/createWordBtn.vue';
 
             <!-- Repeat -->
             <div 
-            class="widget mt-auto mr-auto"
+            class="widget mr-auto"
             @click="$router.push({ name: 'repeat' })"
             >
                 <i class="pi pi-list-check icon-widget" style="color: var(--c-primary-3)"></i>
@@ -31,16 +31,25 @@ import createWordBtn from '@/components/main/UI/createWordBtn.vue';
 
             <!-- Word list -->
             <div 
-            class="widget mb-auto ml-auto"
+            class="widget ml-auto"
             @click="$router.push({ name: 'wordList' })"
             >
                 <i class="pi pi-list icon-widget" style="color: var(--c-primary-3)"></i>
                 <h3 class="name-widget">Список слов</h3>
             </div>
+            
+            <!-- Categories -->
+            <div 
+            class="widget mr-auto"
+            @click="$router.push({ name: 'categories' })"
+            >
+                <i class="pi pi-th-large icon-widget" style="color: var(--c-primary-3)"></i>
+                <h3 class="name-widget">Категории</h3>
+            </div>
 
             <!-- Settings -->
             <div 
-            class="widget mb-auto mr-auto"
+            class="widget ml-auto"
             @click="$router.push({ name: 'settings' })"
             >
                 <i class="pi pi-cog icon-widget" style="color: var(--c-primary-3)"></i>
@@ -63,7 +72,9 @@ import createWordBtn from '@/components/main/UI/createWordBtn.vue';
     padding: 10px;
     display: grid;
     justify-items: center;
+    align-content: center;
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 150px);
     gap: 20px;
 }
 .widget {

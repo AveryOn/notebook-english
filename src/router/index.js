@@ -46,6 +46,15 @@ const router = createRouter({
         },
     },
     {
+        path: '/categories',
+        name: 'categories',
+        component: () => import("../views/CategoriesView.vue"),
+        meta: { 
+            transition: 'fade',
+            title: 'Категории',
+        },
+    },
+    {
         path: '/info-word/:id',
         name: 'infoWord',
         component: () => import("../views/InfoWordView.vue"),
