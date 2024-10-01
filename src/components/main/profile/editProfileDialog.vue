@@ -1,9 +1,10 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, reactive, watch } from 'vue';
 import avatarProfile from './avatarProfile.vue';
 import { useMainStore } from '@/stores/mainState';
 
 
+// #######################################  PROPS  #######################################
 const props = defineProps({
     modelValue: {
         type: Boolean,
@@ -17,13 +18,21 @@ const props = defineProps({
     }
 });
 
+// #######################################  EMITS  #######################################
 const emit = defineEmits({
     'update:modelValue': (value) => true,
     cancel: () => true,
     confirm: () => true,
 });
 
+
+// #######################################  DATA  #######################################
 const store = useMainStore();
+
+const editFormData = reactive({
+    avatar: null,
+    fullname: null,
+});
 
 </script>
 
@@ -39,8 +48,22 @@ const store = useMainStore();
         <form @submit.prevent class="flex flex-column align-items-center justify-content-center">
             <!-- Load Avatar -->
             <span class="light mr-auto mb-1 ml-1">Изменение аватара</span>
-            <avatarProfile :avatar="store.profileData?.avatar ?? null"/>
+            <avatarProfile 
+            v-model="editFormData.avatar" 
+            :avatar="store.profileData?.avatar ?? null"
+            />
+
+            <!--------------------------------------------------->
             <Divider />
+            <!--------------------------------------------------->
+
+            <span class="light mr-auto mb-1 ml-1">Изменение имени</span>
+            <InputText 
+            v-model="editFormData.fullname" 
+            type="text" 
+            size="small" 
+            placeholder="Small" 
+            />
         </form>
 
         <!-- Actions -->

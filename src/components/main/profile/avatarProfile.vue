@@ -1,8 +1,16 @@
 <script setup>
 import { deleteProfileAvatar } from '@/api/usersApi';
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, defineEmits, onBeforeMount, watch } from 'vue';
+import userStubImage from '@/assets/images/user-stub.png';
 
+
+// #######################################  PROPS  #######################################
 const props = defineProps({
+    modelValue: {
+        type: [Object, null],
+        default: null,
+        required: false,
+    },
     avatar: {
         type: String,
         default: null,
@@ -10,11 +18,22 @@ const props = defineProps({
     }
 });
 
+// #######################################  EMITS  #######################################
+const emit = defineEmits({
+    'update:modelValue': (avatar) => true,
+});
+
+
+// #######################################  DATA  #######################################
 const uploadAvatar = ref(null);
 const visibleDeleteAvatarDialog = ref(false);
 const loadingDeleteAvatar = ref(false);
 
+
+// #######################################  Methods  #######################################
+// Читает двочиный файл для отображения картинки
 function readerFile(file) {
+    emit('update:modelValue', file);
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = function (event) {
@@ -27,13 +46,20 @@ function readerFile(file) {
 
 // Обработчик сброса автарки (и уже существующей и только что установленной)
 function handlerResetAvatar() {
-    // Случай когда аватарка в профиле уже есть и была загружена новая картинка 
+    // Случай когда исходная аватарка уже существует и была загружена новая картинка 
     if (props.avatar && uploadAvatar.value) {
         uploadAvatar.value = null;
+        emit('update:modelValue', null);
     } 
     // Случай когда исходная аватарка уже существует а новая НЕ была загружена 
     else if (props.avatar && !uploadAvatar.value) {
         visibleDeleteAvatarDialog.value = true;
+        uploadAvatar.value = null;
+    }
+    // Случай когда исходной автарки нет И загружена новая аватарка 
+    else if (!props.avatar && uploadAvatar.value) {
+        uploadAvatar.value = null;
+        emit('update:modelValue', null);
     }
 }
 
@@ -53,6 +79,17 @@ async function handlerDeleteInitialAvatar() {
     }
 }
 
+// #######################################  Watch  #######################################
+watch(() => props.modelValue, (newValue, oldValue) => {
+    if(!oldValue && newValue) {
+        if(props.modelValue) readerFile(props.modelValue);
+    }
+})
+
+// #######################################  LifeCycle Hooks  #######################################
+onBeforeMount(() => {
+    if(props.modelValue) readerFile(props.modelValue);
+});
 </script>
 
 
@@ -104,10 +141,11 @@ async function handlerDeleteInitialAvatar() {
                     <!-- Если вообще нет аватарки -->
                     <label class="z-5 flex gap-2" v-else for="avatar-input">
                         <i class="pi pi-upload input-icon"></i>
-                        <i class="pi pi-times input-icon reset" @click.stop.prevent="handlerResetAvatar"></i>
+                        <i v-if="uploadAvatar" class="pi pi-times input-icon reset" @click.stop.prevent="handlerResetAvatar"></i>
                     </label>
                 </form>
                 <img v-if="props.avatar || uploadAvatar" class="avatar-img" :src="uploadAvatar || props.avatar" alt="Image">
+                <img v-else class="avatar-img" :src="userStubImage" alt="Image">
             </div>
         </div>
     </div>

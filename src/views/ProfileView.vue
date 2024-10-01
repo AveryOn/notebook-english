@@ -70,7 +70,8 @@ const { replaceDateTimeSrting } = useFormatted();
 
         <div class="w-full flex align-items-center gap-3 mt-7">
             <Avatar 
-            icon="pi pi-user avatar" 
+            :icon="(store.profileData?.avatar) ? null : 'pi pi-user avatar'" 
+            :image="store.profileData?.avatar"
             size="xlarge" 
             shape="circle" 
             style="
@@ -78,7 +79,7 @@ const { replaceDateTimeSrting } = useFormatted();
                 color: var(--txt-light-3)
             "
             />
-            <span class="light text-2xl">Alex Simpson</span>
+            <span class="light text-2xl">{{ store.profileData?.fullname }}</span>
         </div>
         
         <!--------------------------------------->
