@@ -3,6 +3,7 @@ import { defineProps, defineEmits } from 'vue';
 import avatarProfile from './avatarProfile.vue';
 import { useMainStore } from '@/stores/mainState';
 
+
 const props = defineProps({
     modelValue: {
         type: Boolean,

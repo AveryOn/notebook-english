@@ -4,6 +4,7 @@ import backBtn from '@/components/main/UI/backBtn.vue';
 import deleteProfileDialog from '@/components/main/profile/deleteProfileDialog.vue';
 import editProfileDialog from '@/components/main/profile/editProfileDialog.vue';
 import { useMainStore } from '@/stores/mainState';
+import useFormatted from '@/composables/formatted';
 import { ref } from 'vue';
 
 const store = useMainStore();
@@ -43,6 +44,9 @@ async function handlerEditProfile() {
         editLoading.value = false;
     }
 }
+
+const { replaceDateTimeSrting } = useFormatted();
+
 </script>
 
 <template>
@@ -85,11 +89,11 @@ async function handlerEditProfile() {
             <ul class="flex flex-column gap-2">
                 <li class="flex align-items-center justify-content-between">
                     <span class="light">Дата создания аккаунта:</span>
-                    <span class="light">{{ (store.profileData?.createdAt) ?? '-' }}</span>
+                    <span class="light">{{ replaceDateTimeSrting(store.profileData?.createdAt, 'DD.MM.YYYY') ?? '-' }}</span>
                 </li>
                 <li class="flex align-items-center justify-content-between">
                     <span class="light">Дата последнего изменения аккаунта:</span>
-                    <span class="light">{{ (store.profileData?.updatedAt) ?? '-' }}</span>
+                    <span class="light">{{ replaceDateTimeSrting(store.profileData?.updatedAt, 'DD.MM.YYYY') ?? '-' }}</span>
                 </li>
             </ul>
 
