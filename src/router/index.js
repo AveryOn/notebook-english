@@ -64,6 +64,15 @@ const router = createRouter({
         },
     },
     {
+        path: '/profile',
+        name: 'profile',
+        component: () => import("../views/ProfileView.vue"),
+        meta: { 
+            transition: 'fade',
+            title: 'Профиль',
+        },
+    },
+    {
         path: '/settings',
         name: 'settings',
         component: () => import("../views/SettingsView.vue"),

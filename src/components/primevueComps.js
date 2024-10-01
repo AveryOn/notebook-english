@@ -15,6 +15,10 @@ import AccordionContent from 'primevue/accordioncontent';
 import Inplace from 'primevue/inplace';
 import Card from 'primevue/card';
 import MultiSelect from 'primevue/multiselect';
+import Image from 'primevue/image';
+import Avatar from 'primevue/avatar';
+import Divider from 'primevue/divider';
+
 
 
 export default [
@@ -35,4 +39,7 @@ export default [
     Inplace,
     Card,
     MultiSelect,
+    Image,
+    Avatar,
+    Divider,
 ]

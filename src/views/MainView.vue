@@ -47,9 +47,18 @@ import createWordBtn from '@/components/main/UI/createWordBtn.vue';
                 <h3 class="name-widget">Категории</h3>
             </div>
 
-            <!-- Settings -->
+            <!-- Profile -->
             <div 
             class="widget ml-auto"
+            @click="$router.push({ name: 'profile' })"
+            >
+                <i class="pi pi-user icon-widget" style="color: var(--c-primary-3)"></i>
+                <h3 class="name-widget">Профиль</h3>
+            </div>
+
+            <!-- Settings -->
+            <div 
+            class="widget mr-auto"
             @click="$router.push({ name: 'settings' })"
             >
                 <i class="pi pi-cog icon-widget" style="color: var(--c-primary-3)"></i>
