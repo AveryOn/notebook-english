@@ -1,5 +1,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
+import avatarProfile from './avatarProfile.vue';
+import { useMainStore } from '@/stores/mainState';
 
 const props = defineProps({
     modelValue: {
@@ -18,19 +20,30 @@ const emit = defineEmits({
     'update:modelValue': (value) => true,
     cancel: () => true,
     confirm: () => true,
-})
+});
+
+const store = useMainStore();
 
 </script>
 
 <template>
     <Dialog 
     modal 
-    header="Удалить аккаунт?" 
-    class="w-11"
+    header="Изменение данных" 
+    class="w-11 max-h-35rem overflow-auto"
     :visible="props.modelValue" 
     @update:visible="(e) => emit('update:modelValue', e)"
     >
-        <div class="w-full flex align-items-center gap-2">
+
+        <form @submit.prevent class="flex flex-column align-items-center justify-content-center">
+            <!-- Load Avatar -->
+            <span class="light mr-auto mb-1 ml-1">Изменение аватара</span>
+            <avatarProfile :avatar="store.profileData?.avatar ?? null"/>
+            <Divider />
+        </form>
+
+        <!-- Actions -->
+        <div class="w-full flex align-items-center gap-2 mt-3">
             <!-- Edit Btn -->
             <Button 
             class="w-full" 

@@ -1,17 +1,69 @@
 <script setup>
+import { deleteMyProfile, editProfileData } from '@/api/usersApi';
 import backBtn from '@/components/main/UI/backBtn.vue';
 import deleteProfileDialog from '@/components/main/profile/deleteProfileDialog.vue';
+import editProfileDialog from '@/components/main/profile/editProfileDialog.vue';
 import { useMainStore } from '@/stores/mainState';
 import { ref } from 'vue';
 
 const store = useMainStore();
 
-const deleteDialogVisible = ref(true);
+const deleteDialogVisible = ref(false);
+const editDialogVisible = ref(true);
+const editLoading = ref(false);
+const deleteLoading = ref(false);
+
+
+// Подтверждение удаления профиля
+async function handlerDeleteProfile() {
+    try {
+        deleteLoading.value = true;
+        await deleteMyProfile();
+    } 
+    catch (err) {
+        console.error('ProfileView: handlerDeleteProfile => ', err);
+        throw err;
+    } 
+    finally {
+        deleteLoading.value = false;
+    }
+}
+
+// Подтверждение редактирования профиля
+async function handlerEditProfile() {
+    try {
+        editLoading.value = true;
+        await editProfileData();
+    } 
+    catch (err) {
+        console.error('ProfileView: handlerEditProfile => ', err);
+        throw err;
+    } 
+    finally {
+        editLoading.value = false;
+    }
+}
 </script>
 
 <template>
     <div class="profile-view flex flex-column align-items-center justify-content-center px-4">
-        <deleteProfileDialog  v-model="deleteDialogVisible"/>
+
+        <!-- Delete Dialog -->
+        <deleteProfileDialog  
+        v-model="deleteDialogVisible"
+        @confirm="() => handlerDeleteProfile()"
+        @cancel="deleteDialogVisible = false"
+        :confirm-loading="deleteLoading"
+        />
+
+        <!-- Edit Dialog -->
+        <editProfileDialog  
+        v-model="editDialogVisible"
+        @confirm="() => handlerEditProfile()"
+        @cancel="editDialogVisible = false"
+        :confirm-loading="editLoading"
+        />
+
         <div class="w-full flex align-items-center gap-3 mt-7">
             <Avatar 
             icon="pi pi-user avatar" 
@@ -50,6 +102,7 @@ const deleteDialogVisible = ref(true);
             class="w-full" 
             label="Редактировать" 
             size="small"
+            @click="editDialogVisible = true"
             />
             <!-- Delete Account btn -->
             <Button 

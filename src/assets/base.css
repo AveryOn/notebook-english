@@ -1,4 +1,6 @@
 /* color palette from <https://github.com/vuejs/theme> */
+@import url(./components.css);
+
 :root {
     --c-primary-1: var(--p-emerald-100);
     --c-primary-2: var(--p-emerald-300);
@@ -7,6 +9,11 @@
     --c-danger-1: var(--p-red-400);
     --c-danger-2: var(--p-red-500);
     --c-danger-3: var(--p-red-600);
+    --c-warn-0: var(--p-amber-200);
+    --c-warn-1: var(--p-amber-300);
+    --c-warn-2: var(--p-amber-400);
+    --c-warn-3: var(--p-amber-500);
+    --c-warn-4: var(--p-amber-600);
     --txt-light-0: var(--p-zinc-300);
     --txt-light-1: var(--p-zinc-400);
     --txt-light-2: var(--p-zinc-500);
