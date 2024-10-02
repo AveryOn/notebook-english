@@ -142,11 +142,17 @@ async function handlerConfirmForm() {
 
             <Button 
             class="w-full mt-6" 
-            label="Войти" 
+            label="Создать профиль" 
             outlined 
+            size="small"
             :loading="loadingConfirm"
             @click="handlerConfirmForm"
             />
+
+            <router-link class="text-md hint" :to="{ name: 'signIn' }">
+                <span>Войти</span>
+                <i class="pi pi-sign-in"></i>
+            </router-link>
         </form>
     </div>
 </template>
@@ -158,5 +164,16 @@ async function handlerConfirmForm() {
     height: 100vh;
     width: 100vw;
     display: flex;
+}
+.hint {
+    position: absolute;
+    right: 3rem;
+    bottom: 15%;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    color: var(--c-primary-4);
 }
 </style>
