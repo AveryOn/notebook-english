@@ -4,7 +4,8 @@ import { useToast } from 'primevue/usetoast';
 
 export const useMainStore = defineStore("mainStore", () => {
     const toast = useToast();
-
+    
+    const isAuth = ref(true);
     const role = ref('admin'); // admin | user | null;
     const categories = ref([
         { id: 1, title: 'Игры' }
@@ -19,6 +20,12 @@ export const useMainStore = defineStore("mainStore", () => {
         updatedAt: (new Date()).toISOString(),
     });
     
+
+    function checkoutAuth() {
+        if(isAuth.value === true) return true
+        else return false;
+    }
+
     // Активация всплывающего уведомления (для долбаебов)
     function activeToast(severity, summary, detail, life=3000) {
         try {
@@ -34,11 +41,13 @@ export const useMainStore = defineStore("mainStore", () => {
 
     return { 
         // State
+        isAuth,
         role,
         categories,
         profileData,
 
         // Actions
         activeToast,
+        checkoutAuth,
     };
 });

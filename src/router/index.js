@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import SigninView from "@/views/auth/SigninView.vue";
 import SingupView from "@/views/auth/SingupView.vue";
+import { useMainStore } from "@/stores/mainState";
+import NotFoundView from "@/views/NotFoundView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,21 +17,30 @@ const router = createRouter({
                 path: 'sign-in',
                 name: 'signIn',
                 component: SigninView,
+                meta: {
+                    requiredAuth: false,
+                }
             },
             {
                 path: 'sign-up',
                 name: 'signUp',
                 component: SingupView,
+                meta: {
+                    requiredAuth: false,
+                }
             }
         ]
     },
 
     // MAIN ROUTES
     {
-      path: "/",
-      name: "main",
-      component: () => import("../views/MainView.vue"),
-      meta: { transition: 'fade' },
+        path: "/",
+        name: "main",
+        component: () => import("../views/MainView.vue"),
+        meta: { 
+            transition: 'fade',
+            requiredAuth: true,
+        },
     },
     {
         path: '/new-word',
@@ -38,6 +49,7 @@ const router = createRouter({
         meta: { 
             transition: 'fade',
             title: 'Новое слово',
+            requiredAuth: true,
         },
     },
     {
@@ -47,6 +59,7 @@ const router = createRouter({
         meta: { 
             transition: 'fade',
             title: 'Прогресс',
+            requiredAuth: true,
         },
     },
     {
@@ -56,6 +69,7 @@ const router = createRouter({
         meta: { 
             transition: 'fade',
             title: 'Повторение',
+            requiredAuth: true,
         },
     },
     {
@@ -65,6 +79,7 @@ const router = createRouter({
         meta: { 
             transition: 'fade',
             title: 'Список слов',
+            requiredAuth: true,
         },
     },
     {
@@ -74,6 +89,7 @@ const router = createRouter({
         meta: { 
             transition: 'fade',
             title: 'Категории',
+            requiredAuth: true,
         },
     },
     {
@@ -83,6 +99,7 @@ const router = createRouter({
         meta: { 
             transition: 'fade',
             title: 'Информация по слову',
+            requiredAuth: true,
         },
     },
     {
@@ -92,6 +109,7 @@ const router = createRouter({
         meta: { 
             transition: 'fade',
             title: 'Профиль',
+            requiredAuth: true,
         },
     },
     {
@@ -101,9 +119,55 @@ const router = createRouter({
         meta: { 
             transition: 'fade',
             title: 'Настройки',
+            requiredAuth: true,
         },
     },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'notFound',
+        component: NotFoundView,
+        meta: { 
+            transition: 'fade',
+            title: '',
+            requiredAuth: false,
+        },
+    }
   ],
+});
+
+//== Navigation Guard
+router.beforeEach((to, from, next) => {
+    const store = useMainStore();
+    // Защищенные маршруты
+    if (to.meta.requiredAuth === true) {
+        // Авторизован
+        if(store.checkoutAuth()) {
+            return next();
+        }
+        // НЕ Авторизован
+        else {
+            if (from.name !== 'auth' || from.name !== 'signIn' || from.name !== 'signUp') {
+                return next({ name: 'auth' });
+            }
+        }
+        return next();
+    }
+    // НЕ защищенные маршруты
+    else {
+        // Авторизован
+        if(store.checkoutAuth()) {
+            if(from.name !== 'main') {
+                // Allow to next on the page 404
+                if(to.name === 'notFound') return next();
+                return next({ name: 'main' });
+            }
+        }
+        // НЕ Авторизован
+        else {
+            return next();
+        }
+        return next();
+    }
 });
 
 export default router;
