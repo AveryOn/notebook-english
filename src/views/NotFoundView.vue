@@ -4,7 +4,10 @@ import backBtn from '@/components/main/UI/backBtn.vue';
 
 <template>
     <div class="not-found-view flex flex-column align-items-center justify-content-center">
-        <h1>Error 404: Not Found</h1>
+        <div class="not-found-msg">
+            <h1>Error 404</h1>
+            <h1>Not Found</h1>
+        </div>
         <backBtn @back="$router.push({ name: 'main' })"/>
     </div>
 </template>
@@ -13,6 +16,16 @@ import backBtn from '@/components/main/UI/backBtn.vue';
 .not-found-view {
     height: 100vh;
     width: 100vw;
-    border: 4px solid rgb(255, 0, 0);
+}
+.not-found-msg {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-primary-4);
+    font-family: var(--font);
+    font-size: 1.2rem;
 }
 </style>
