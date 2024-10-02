@@ -1,7 +1,8 @@
 <script setup>
-import { defineProps, defineEmits, reactive, watch } from 'vue';
+import { defineProps, defineEmits, reactive, ref, onMounted } from 'vue';
 import avatarProfile from './avatarProfile.vue';
 import { useMainStore } from '@/stores/mainState';
+import useValidation from '@/composables/validation';
 
 
 // #######################################  PROPS  #######################################
@@ -32,6 +33,67 @@ const store = useMainStore();
 const editFormData = reactive({
     avatar: null,
     fullname: null,
+    login: null,
+});
+const oldPassword = ref('');
+const newPassword = ref('');
+const repeatPassword = ref('');
+
+const hasValidateFullname = reactive({
+    isValidate: true,
+    msg: null,
+});
+
+const hasValidateLogin = reactive({
+    isValidate: true,
+    msg: null,
+});
+
+
+// #######################################  Methods  #######################################
+const { validationFullname, validationLogin } = useValidation();
+
+function resetFullname() {
+    editFormData.fullname = store.profileData?.fullname;
+    resetErrorFullname();
+}
+
+function resetLogin() {
+    editFormData.login = store.profileData?.login;
+}
+
+// Установка ключей объекта ошибки для поля ИМЕНИ пользователя
+function setErrorFullname(objectErr) {
+    if(objectErr) {
+        hasValidateFullname.isValidate = objectErr.isValidate;
+        hasValidateFullname.msg = objectErr.msg;
+    }
+}
+
+// Установка ключей объекта ошибки для поля ЛОГИНА пользователя
+function setErrorLogin(objectErr) {
+    if(objectErr) {
+        hasValidateLogin.isValidate = objectErr.isValidate;
+        hasValidateLogin.msg = objectErr.msg;
+    }
+}
+
+// Сбросить ошибки по имени пользователя
+function resetErrorFullname() {
+    hasValidateFullname.isValidate = true;
+    hasValidateFullname.msg = null;
+}
+
+// Сбросить ошибки по Логину пользователя
+function resetErrorLogin() {
+    hasValidateLogin.isValidate = true;
+    hasValidateLogin.msg = null;
+}
+
+// #######################################  Lifecycle Hooks  #######################################
+onMounted(() => {
+    editFormData.fullname = store.profileData?.fullname;
+    editFormData.login = store.profileData?.login;
 });
 
 </script>
@@ -57,13 +119,78 @@ const editFormData = reactive({
             <Divider />
             <!--------------------------------------------------->
 
+            <!-- Full name -->
             <span class="light mr-auto mb-1 ml-1">Изменение имени</span>
-            <InputText 
-            v-model="editFormData.fullname" 
-            type="text" 
-            size="small" 
-            placeholder="Small" 
-            />
+            <InputGroup>
+                <InputText 
+                class="w-full"
+                v-model="editFormData.fullname"
+                @update:model-value="(value) => validationFullname(value, (err) => setErrorFullname(err), () => resetErrorFullname())"
+                type="text" 
+                size="small" 
+                placeholder="Укажите полное имя" 
+                />
+                <InputGroupAddon>
+                    <i class="pi pi-sync cursor-pointer" style="color: slateblue" @click="resetFullname"></i>
+                </InputGroupAddon>
+            </InputGroup>
+            <small class="danger-sign mr-auto">{{ hasValidateFullname.msg }}</small>
+
+            <!--------------------------------------------------->
+            <Divider />
+            <!--------------------------------------------------->
+
+            <!-- Login -->
+            <span class="light mr-auto mb-1 ml-1">Изменение логина</span>
+            <InputGroup>
+                <InputText 
+                class="w-full"
+                v-model="editFormData.login" 
+                @update:model-value="(value) => validationLogin(value, (err) => setErrorLogin(err), () => resetErrorLogin())"
+                type="text" 
+                size="small" 
+                placeholder="Укажите логин" 
+                />
+                <InputGroupAddon>
+                    <i class="pi pi-sync cursor-pointer" style="color: slateblue" @click="resetLogin"></i>
+                </InputGroupAddon>
+            </InputGroup>
+
+            <!--------------------------------------------------->
+            <Divider />
+            <!--------------------------------------------------->
+
+            <!-- PASSWORDS -->
+            <span class="light mr-auto mb-1 ml-1">Изменение пароля</span>
+            <div class="w-full flex flex-column align-items-stretch gap-4 mb-3">
+                <!-- Old Password -->
+                <Password 
+                class="w-full" 
+                v-model="oldPassword" 
+                :feedback="false" 
+                toggleMask
+                placeholder="Введите старый пароль"
+                />
+                <!-- New Password -->
+                <Password 
+                class="w-full" 
+                v-model="newPassword" 
+                :feedback="true" 
+                toggleMask
+                :disabled="!oldPassword"
+                placeholder="Введите новый пароль"
+                />
+                <!-- Repeat Password -->
+                <Password 
+                class="w-full" 
+                v-model="repeatPassword" 
+                :feedback="false" 
+                toggleMask
+                :disabled="!newPassword"
+                placeholder="Повторите новый пароль"
+                />
+                <small class="danger-sign -mt-4">Пароли должны совпадать</small>
+            </div>
         </form>
 
         <!-- Actions -->
@@ -71,18 +198,18 @@ const editFormData = reactive({
             <!-- Edit Btn -->
             <Button 
             class="w-full" 
-            label="Да" 
+            label="Сохранить" 
             size="small"
             outlined 
-            severity="danger"
             :loading="props.confirmLoading"
             @click="emit('confirm')"
             />
             <!-- Delete Account btn -->
             <Button 
             class="w-full" 
-            label="Нет" 
+            label="Отмена" 
             outlined 
+            severity="secondary"
             size="small"
             @click="emit('cancel')"
             />
@@ -92,5 +219,8 @@ const editFormData = reactive({
 
 
 <style scoped>
-    
+.danger-sign {
+    color: var(--c-danger-2);
+    margin-left: 0.3rem;
+}
 </style>

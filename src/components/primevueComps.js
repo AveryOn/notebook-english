@@ -19,6 +19,7 @@ import Image from 'primevue/image';
 import Avatar from 'primevue/avatar';
 import Divider from 'primevue/divider';
 import Dialog from 'primevue/dialog';
+import Password from 'primevue/password';
 
 
 
@@ -44,4 +45,5 @@ export default [
     Avatar,
     Divider,
     Dialog,
+    Password,
 ]

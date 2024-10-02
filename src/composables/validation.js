@@ -13,6 +13,32 @@ export default function useValidation() {
             throw err;
         }
     }
+
+    function hasAllowLength(input, allowLength=3) {
+        if(input && typeof input === 'string') {
+            return input.length >= allowLength;
+        }
+        else return true;
+    }
+
+    // Проверяет числа вначале строки а также на наличие дефисов и подчеркиваний по краям строки
+    function hasCorrectText(input, allowSymbols='') {
+        if(input && typeof input === 'string') {
+            let notAllowSymbols = '~`!@\'\"#№$;%^:&?*()-_+={}[]|\\/.<>,0123456789 ';
+            notAllowSymbols = notAllowSymbols.split('').filter((char) => !allowSymbols.includes(char)).join('')
+
+            if(notAllowSymbols.includes(input.at(0)) || notAllowSymbols.includes(input.at(-1))) {
+                return false;
+            }
+            const splitterWords = input.split(' ');
+            if(splitterWords.length > 1) {
+                return !splitterWords.some((word) => notAllowSymbols.includes(word.at(0)) || notAllowSymbols.includes(word.at(-1)))
+            }
+            else return true;
+        }
+        else return true;
+    }
+
     function hasEngLang(input, allowSymbols = '') {
         try {
             if(!input || typeof input !== 'string') return true;
@@ -101,6 +127,80 @@ export default function useValidation() {
         }
     }
 
+    // Валидация имени пользователя
+    function validationFullname(value, throwErr = (errorData) => undefined, resetError = () => undefined) {
+        // Проверка на Спец символы
+        const allowSybols = ' _\'-';
+        if(hasSpecSymbols(value, allowSybols)) {
+            return throwErr({
+                isValidate: false,
+                msg: 'Имя не должно содержать спецсимволы',
+            });
+        } 
+        else resetError();
+        // Проверка на корректность строки
+        if(!hasCorrectText(value)) {
+            return throwErr({
+                isValidate: false,
+                msg: 'Некорректный формат имени',
+            });
+        } 
+        else resetError();
+        // Проверка на допустимую длину
+        if(!hasAllowLength(value, 3)) {
+            return throwErr({
+                isValidate: false,
+                msg: 'Имя должно содержать минимум 3 символа',
+            });
+        } 
+        else resetError();
+        // Проверка на существование строки
+        if(!value) {
+            return throwErr({
+                isValidate: false,
+                msg: 'Имя не может быть пустым',
+            });
+        }
+        else resetError();
+    }
+
+    // Валидация логина пользователя
+    function validationLogin(value, throwErr = (errorData) => undefined, resetError = () => undefined) {
+        // Проверка на Спец символы
+        const allowSybols = '_0123456789';
+        if(hasSpecSymbols(value, allowSybols)) {
+            return throwErr({
+                isValidate: false,
+                msg: 'Логин не должен содержать спецсимволы',
+            });
+        } 
+        else resetError();
+        // Проверка на корректность строки
+        if(!hasCorrectText(value)) {
+            return throwErr({
+                isValidate: false,
+                msg: 'Некорректный формат логина',
+            });
+        } 
+        else resetError();
+        // Проверка на допустимую длину
+        if(!hasAllowLength(value, 3)) {
+            return throwErr({
+                isValidate: false,
+                msg: 'Логин должен содержать минимум 3 символа',
+            });
+        } 
+        else resetError();
+        // Проверка на существование строки
+        if(!value) {
+            return throwErr({
+                isValidate: false,
+                msg: 'Логин не может быть пустым',
+            });
+        }
+        else resetError();
+    }
+
     return {
 
         // Methods
@@ -109,5 +209,9 @@ export default function useValidation() {
         hasSpecSymbols,
         hasEngLang,
         hasRusLang,
+        hasAllowLength,
+        hasCorrectText,
+        validationFullname,
+        validationLogin,
     }
 }
