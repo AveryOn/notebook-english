@@ -19,7 +19,7 @@ export const useMainStore = defineStore("mainStore", () => {
         updatedAt: (new Date()).toISOString(),
     });
     
-    // Активация всплывающего уведомления
+    // Активация всплывающего уведомления (для долбаебов)
     function activeToast(severity, summary, detail, life=3000) {
         try {
             const toastStates = ['contrast', 'error', 'info', 'secondary', 'success', 'warn'];
