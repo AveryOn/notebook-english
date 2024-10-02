@@ -10,7 +10,7 @@ import { ref } from 'vue';
 const store = useMainStore();
 
 const deleteDialogVisible = ref(false);
-const editDialogVisible = ref(true);
+const editDialogVisible = ref(false);
 const editLoading = ref(false);
 const deleteLoading = ref(false);
 
