@@ -176,7 +176,7 @@ export default function useValidation() {
         } 
         else resetError();
         // Проверка на корректность строки
-        if(!hasCorrectText(value)) {
+        if(!hasCorrectText(value, '0123456789')) {
             return throwErr({
                 isValidate: false,
                 msg: 'Некорректный формат логина',

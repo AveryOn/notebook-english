@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 import { useToast } from 'primevue/usetoast';
 
@@ -21,7 +21,6 @@ export const useMainStore = defineStore("mainStore", () => {
     
     // Активация всплывающего уведомления
     function activeToast(severity, summary, detail, life=3000) {
-        console.log(severity, summary, detail);
         try {
             const toastStates = ['contrast', 'error', 'info', 'secondary', 'success', 'warn'];
             if(toastStates.includes(severity)) {

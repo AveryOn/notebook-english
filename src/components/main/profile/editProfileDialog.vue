@@ -49,6 +49,11 @@ const hasValidateLogin = reactive({
     msg: null,
 });
 
+const hasValidatePassword = reactive({
+    isValidate: true,
+    msg: null,
+});
+
 
 // #######################################  Methods  #######################################
 const { validationFullname, validationLogin } = useValidation();
@@ -60,6 +65,7 @@ function resetFullname() {
 
 function resetLogin() {
     editFormData.login = store.profileData?.login;
+    resetErrorLogin();
 }
 
 // Установка ключей объекта ошибки для поля ИМЕНИ пользователя
@@ -88,6 +94,22 @@ function resetErrorFullname() {
 function resetErrorLogin() {
     hasValidateLogin.isValidate = true;
     hasValidateLogin.msg = null;
+}
+
+// Обработчик подтверждения редактирования профиля
+function handlerConfirmEdit() {
+    try {
+        if (hasValidateFullname.isValidate && hasValidateLogin.isValidate && hasValidatePassword.isValidate) {
+            console.log('ЗАПРОС')
+        }
+        else {
+            store.activeToast('error', 'Неверные данные', 'Проверьте правильность введенных данных в форме');
+        }
+    } catch (err) {
+        console.error('profile/editProfileDialog: handlerConfirmEdit => ', err);
+        throw err;
+    }
+
 }
 
 // #######################################  Lifecycle Hooks  #######################################
@@ -155,6 +177,7 @@ onMounted(() => {
                     <i class="pi pi-sync cursor-pointer" style="color: slateblue" @click="resetLogin"></i>
                 </InputGroupAddon>
             </InputGroup>
+            <small class="danger-sign mr-auto">{{ hasValidateLogin.msg }}</small>
 
             <!--------------------------------------------------->
             <Divider />
@@ -189,7 +212,7 @@ onMounted(() => {
                 :disabled="!newPassword"
                 placeholder="Повторите новый пароль"
                 />
-                <small class="danger-sign -mt-4">Пароли должны совпадать</small>
+                <small v-show="false" class="danger-sign -mt-4">Пароли должны совпадать</small>
             </div>
         </form>
 
@@ -202,7 +225,7 @@ onMounted(() => {
             size="small"
             outlined 
             :loading="props.confirmLoading"
-            @click="emit('confirm')"
+            @click="handlerConfirmEdit"
             />
             <!-- Delete Account btn -->
             <Button 
