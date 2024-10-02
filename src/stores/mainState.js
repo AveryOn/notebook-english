@@ -5,7 +5,7 @@ import { useToast } from 'primevue/usetoast';
 export const useMainStore = defineStore("mainStore", () => {
     const toast = useToast();
     
-    const isAuth = ref(false);
+    const isAuth = ref(true);
     const role = ref('admin'); // admin | user | null;
     const categories = ref([
         { id: 1, title: 'Игры' }

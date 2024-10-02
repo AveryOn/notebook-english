@@ -7,7 +7,6 @@ export function fetchWords({ page, perPage }={ page: 1, perPage: 15 }) {
             // Пагинация
             if(Array.isArray(words) && page && perPage) {
                 const totalWords = words.length;
-                console.log(page * perPage)
             }
             res(words);
         },800)

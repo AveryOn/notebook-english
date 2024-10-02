@@ -6,7 +6,6 @@ import backBtn from '@/components/main/UI/backBtn.vue';
 
 onMounted(async () => {
     const words = await fetchWords();
-    console.log(words);
 })
 </script>
 
