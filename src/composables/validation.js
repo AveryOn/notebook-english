@@ -128,7 +128,11 @@ export default function useValidation() {
     }
 
     // Валидация имени пользователя
-    function validationFullname(value, throwErr = (errorData) => undefined, resetError = () => undefined) {
+    function validationFullname(
+        value, 
+        throwErr = (errorData = { isValidate: true, msg: null }) => undefined, 
+        resetError = () => undefined
+    ) {
         // Проверка на Спец символы
         const allowSybols = ' _\'-';
         if(hasSpecSymbols(value, allowSybols)) {
@@ -165,7 +169,11 @@ export default function useValidation() {
     }
 
     // Валидация логина пользователя
-    function validationLogin(value, throwErr = (errorData) => undefined, resetError = () => undefined) {
+    function validationLogin(
+        value, 
+        throwErr = (errorData = { isValidate: true, msg: null }) => undefined, 
+        resetError = () => undefined
+    ) {
         // Проверка на Спец символы
         const allowSybols = '_0123456789';
         if(hasSpecSymbols(value, allowSybols)) {
@@ -201,8 +209,35 @@ export default function useValidation() {
         else resetError();
     }
 
+    // Проверка паролей
+    function validationPassword(
+        value, 
+        throwErr = (errorData = { isValidate: true, msg: null }) => undefined, 
+        resetError = () => undefined
+    ) {
+        try {
+            // Проверка на допустимую длину
+            if(!hasAllowLength(value, 8)) {
+                return throwErr({
+                    isValidate: false,
+                    msg: 'Пароль должен содержать минимум 8 символов',
+                });
+            } 
+            else resetError();
+            // Проверка на существование строки
+            if(!value) {
+                return throwErr({
+                    isValidate: false,
+                    msg: 'Пароль не может быть пустым',
+                });
+            }
+            else resetError();
+        } catch (err) {
+            console.error('composables/validation: validationPassword => ', err);
+            throw err;
+        }
+    }
     return {
-
         // Methods
         hasValidateWordEng,
         hasValidateWordRus,
@@ -213,5 +248,6 @@ export default function useValidation() {
         hasCorrectText,
         validationFullname,
         validationLogin,
+        validationPassword,
     }
 }
